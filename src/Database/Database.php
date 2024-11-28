@@ -1,17 +1,30 @@
 <?php
 
+namespace App\Database;
+
 class Database {
-  private static $connectRead;
-  private static $connectWrite;
+  private $connection;
 
-  public static function read() {
-    if(self::$connectRead == null) {
-      self::$connectRead = new PDO("mysql:host=localhost;dbname=blogdb;charset=utf8", "root", "");
-      self::$connectRead->setAttribute();
-      self::$connectRead->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      self::$connectRead->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    }
+  public function connect() {
+      $this->connection = new PDO("mysql:host=localhost;dbname=blogdb;charset=utf8", "root", "");
+      $this->connection->setAttribute();
+      $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-    return self::$connectRead;
+      return $this->connection;
+  }
+
+  /**
+   *  Insert data into a table
+   *
+   *  @param string $table Table name
+   *  @param string[] $params List of params from model
+   *  @param mixed[] $values List of values from model
+   *  @return void
+   * */
+  public function insert($table, $params, $values) {
+    $query_string = "INSERT INTO " . $table . " (";
+
+    $query = $this->connection->prepare("")
   }
 }
