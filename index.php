@@ -2,8 +2,8 @@
 
 require __DIR__ . "/vendor/autoload.php";
 
-use App\Controllers\UserController;
+use App\Database\Migrations\UserMigration;
 
-$controller = new UserController();
+$migration = new UserMigration();
 
-$controller->create();
+$migration->migrate();
