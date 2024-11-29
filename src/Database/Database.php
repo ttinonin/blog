@@ -18,6 +18,10 @@ class Database {
     }  
   }
 
+  public function execute($sql) {
+    $this->connection->exec($sql);
+  }
+
   /**
    *  Insert data into a table
    *

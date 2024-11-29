@@ -18,6 +18,6 @@ class UserMigration extends Migration {
       );
     ";
 
-    $this->db->connection->exec($sql);
+    $this->db->execute($sql);
   }
 }
