@@ -2,8 +2,13 @@
 
 require __DIR__ . "/vendor/autoload.php";
 
-use App\Database\Migrations\UserMigration;
+use App\Controllers\UserController;
+use App\Routes\Router;
 
-$migration = new UserMigration();
+$BASE_PATH = "/php/blog";
 
-$migration->migrate();
+$router = new Router();
+$router->add('GET', $BASE_PATH . '/create-user', [UserController::class, "create_form"]);
+
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$router->dispatch($path); 

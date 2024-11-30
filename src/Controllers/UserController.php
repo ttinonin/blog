@@ -13,6 +13,10 @@ class UserController {
   }
 
   public function create() {
-    echo "TODO: Create user";
+    var_dump($_POST);
+  }
+
+  public function create_form() {
+    echo "test";
   }
 }

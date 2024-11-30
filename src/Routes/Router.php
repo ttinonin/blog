@@ -36,10 +36,16 @@ class Router {
         return $name; 
     }
 
+    /**
+     * Load the desired controller for the route
+     * 
+     * @param string $name current browser route
+     * @return void
+     */
     public function dispatch($name) { 
         $name = $this->normalizeName($name);
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
-        
+
         foreach ($this->routes as $route) {
           if (
             !preg_match("#^{$route['path']}$#", $name) ||
