@@ -3,21 +3,11 @@
 namespace App\Controllers;
 
 use Exception;
+
 use App\Models\User;
-use App\Views\Template;
-use App\Database\Database;
+use App\Controllers\Controller;
 
-class UserController {
-  private $db;
-  private $template;
-
-  public function __construct() {
-    $this->db = new Database();
-    $this->db->connect();
-
-    $this->template = new Template();
-  }
-
+class UserController extends Controller {
   public function create() {
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -35,7 +25,7 @@ class UserController {
       return;
     }
 
-    var_dump($user);
+    $this->db->insertModel($user);
   }
 
   public function create_form() {

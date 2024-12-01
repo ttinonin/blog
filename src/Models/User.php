@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Exception;
+use App\Models\Model;
 
-class User {
+class User extends Model {
   private $id;
   private $username;
   private $email;
