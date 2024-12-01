@@ -8,6 +8,8 @@ use App\Routes\Router;
 $BASE_PATH = "/php/blog";
 
 $router = new Router();
+
+$router->add('GET', $BASE_PATH . '/', [UserController::class, "home"]);
 $router->add('GET', $BASE_PATH . '/create-user', [UserController::class, "create_form"]);
 $router->add('POST', $BASE_PATH . '/user', [UserController::class, "create"]);
 

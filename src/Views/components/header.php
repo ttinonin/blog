@@ -6,3 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+
+<?php if(isset($error)): ?>
+
+<p>Error: <?= $error ?></p>
+
+<?php endif; ?>

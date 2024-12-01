@@ -2,6 +2,8 @@
 
 namespace App\Views;
 
+use App\Routes\Redirect;
+
 class Template {
     private $path = __DIR__ . "/pages/";
     private $data = [];
