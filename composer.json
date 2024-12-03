@@ -5,8 +5,5 @@
         "psr-4": {
             "App\\": "src/"
         }
-    },
-    "require-dev": {
-        "phpdocumentor/phpdocumentor": "^3.5"
     }
 }

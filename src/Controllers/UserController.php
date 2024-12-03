@@ -7,6 +7,7 @@ use Exception;
 use App\Models\User;
 use App\Controllers\Controller;
 use App\Routes\Redirect;
+use App\Routes\Request;
 
 class UserController extends Controller {
   public function home() {
@@ -14,9 +15,9 @@ class UserController extends Controller {
   }
 
   public function create() {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $email = $_POST["email"];
+    $username = Request::post("username");
+    $password = Request::post("password");
+    $email = Request::post("email");
 
     try {
       $user = new User(
@@ -29,7 +30,7 @@ class UserController extends Controller {
       // $this->template->with('error', $e->getMessage())->render("create_user");
       Redirect::redirect('/', ['error' => $e->getMessage()]);      
     }
-
+    
     $this->db->insertModel($user);
   }
 
