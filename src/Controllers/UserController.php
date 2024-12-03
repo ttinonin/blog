@@ -41,4 +41,10 @@ class UserController extends Controller {
   public function create_form() {
     $this->template->render("create_user");
   }
+
+  public function read() {
+    $users = $this->db->selectModel("user");
+
+    $this->template->with("users", $users)->render("users");
+  }
 }

@@ -12,6 +12,7 @@ $router = new Router();
 $router->add('GET', $BASE_PATH . '/', [UserController::class, "home"]);
 $router->add('GET', $BASE_PATH . '/create-user', [UserController::class, "create_form"]);
 $router->add('POST', $BASE_PATH . '/user', [UserController::class, "create"]);
+$router->add('GET', $BASE_PATH . '/user', [UserController::class, "read"]);
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $router->dispatch($path); 

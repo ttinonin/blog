@@ -38,6 +38,115 @@ class Database {
   }
 
   /**
+   * 
+   */
+  public function selectModel($model, $params = [], $where = []) {
+    $table = strtolower($model . 's');
+    $param_size = count($params);
+    $where_size = count($where);
+    $iteration = 0;
+
+    $query_str = "SELECT ";
+
+    if(empty($params)) {
+      $query_str .= "* FROM " . $table . " ";
+    } else {
+      foreach($params as $param) {
+        $iteration++;
+
+        if($param_size === $iteration) {
+          $query_str .= $param . " FROM " . $table . " ";
+          continue;
+        }
+
+        $query_str .= $param . ", ";
+      }
+    }
+
+    if(empty($where)) {
+      $query = $this->connection->prepare($query_str);
+      $query->execute();
+      return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    $iteration = 0;
+    $query_str .= "WHERE ";
+    foreach($where as $condition=>$value) {
+      $iteration++;
+      
+      if($where_size === $iteration) {
+        $query_str .= $condition . " = :" . $condition . " ";
+        continue;
+      }
+
+      $query_str .= $condition . " = :" . $condition . " AND "; 
+    }
+
+    $query = $this->connection->prepare($query_str);
+    $iteration = 0;
+    foreach($where as $condition=>$value) {
+      $param_type = $this->getPDOType($value);
+      $query->bindValue(":" . $condition, $value, $param_type);
+    }
+
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function selectSingleModel($model, $params = [], $where = []) {
+    $table = strtolower($model . 's');
+    $param_size = count($params);
+    $where_size = count($where);
+    $iteration = 0;
+
+    $query_str = "SELECT ";
+
+    if(empty($params)) {
+      $query_str .= "* FROM " . $table . " ";
+    } else {
+      foreach($params as $param) {
+        $iteration++;
+
+        if($param_size === $iteration) {
+          $query_str .= $param . " FROM " . $table . " ";
+          continue;
+        }
+
+        $query_str .= $param . ", ";
+      }
+    }
+
+    if(empty($where)) {
+      $query = $this->connection->prepare($query_str);
+      $query->execute();
+      return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    $iteration = 0;
+    $query_str .= "WHERE ";
+    foreach($where as $condition=>$value) {
+      $iteration++;
+
+      if($where_size === $iteration) {
+        $query_str .= $condition . " = :" . $condition . " ";
+        continue;
+      }
+
+      $query_str .= $condition . " = :" . $condition . " AND "; 
+    }
+
+    $query = $this->connection->prepare($query_str);
+    $iteration = 0;
+    foreach($where as $condition=>$value) {
+      $param_type = $this->getPDOType($value);
+      $query->bindValue(":" . $condition, $value, $param_type);
+    }
+
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /**
    * Insert the model based on its name and params
    * 
    * @param Model $model Model reference
@@ -82,7 +191,8 @@ class Database {
       $query->bindValue(":" . $param, $value, $param_type);
     }
 
-    $rowCount = $query->execute();
+    $query->execute();
+    $rowCount = $query->rowCount();
   
     if($rowCount === 0) {
       return false;
