@@ -7,7 +7,7 @@ use App\Database\Database;
 /**
  * Migrations base class
  *
- * Set base table functions (create drop)
+ * Set base table functions (create | drop)
  *
   * */
 class Migration {

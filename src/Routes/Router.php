@@ -5,6 +5,11 @@ namespace App\Routes;
 class Router {
     private $routes = [];
 
+    public function __construct()
+    {
+      session_start();
+    }
+
     /**
      * Add a new route
      * 

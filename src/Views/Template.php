@@ -16,6 +16,12 @@ class Template {
     public function render($view) {
         $this->setPath($view);
 
+        if($temp = Redirect::getFlashData()) {
+            foreach($temp as $key=>$value) {
+                $this->with($key, $value);
+            }
+        }
+
         extract($this->data);
 
         require_once $this->path;

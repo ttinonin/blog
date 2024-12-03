@@ -2,6 +2,14 @@
 
 namespace App\Models;
 
+/**
+ * Model is a base class
+ * 
+ * Every model must extends the Model class, to use basic functions.
+ * 
+ * Example usage:
+ * class User extends Model {}
+ */
 class Model {
     public function getModelName() {
         return strtolower(basename(str_replace('\\', '/',get_class($this))) . 's');

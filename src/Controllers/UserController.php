@@ -18,6 +18,11 @@ class UserController extends Controller {
     $username = Request::post("username");
     $password = Request::post("password");
     $email = Request::post("email");
+    $password_confirm = Request::post("password_confirm");
+
+    if($password !== $password_confirm) {
+      Redirect::redirect('/create-user', ['error' => "Password and confirmation password must be the same."]);      
+    }
 
     try {
       $user = new User(
@@ -27,8 +32,7 @@ class UserController extends Controller {
         $password
       );
     } catch(Exception $e) {
-      // $this->template->with('error', $e->getMessage())->render("create_user");
-      Redirect::redirect('/', ['error' => $e->getMessage()]);      
+      Redirect::redirect('/create-user', ['error' => $e->getMessage()]);      
     }
     
     $this->db->insertModel($user);

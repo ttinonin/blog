@@ -3,6 +3,7 @@
 namespace App\Database;
 
 use PDO;
+use App\Models\Model;
 
 class Database {
   public $connection;
@@ -42,7 +43,7 @@ class Database {
    * @param Model $model Model reference
    * @return boolean
    */
-  public function insertModel($model) {
+  public function insertModel(Model $model) {
     $table = $model->getModelName();
     $params = $model->getModelParams();
     $param_size = count($params);

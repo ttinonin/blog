@@ -2,6 +2,14 @@
 
 namespace App\Routes;
 
+/**
+ * Request is a class to prevent XSS
+ * 
+ * Request is a class to prevent XSS atacks from form fields
+ * 
+ * Example usage:
+ * $username = Request::post('username');
+ */
 class Request {
     public static function get($param) {
         $data = $_GET[$param];
