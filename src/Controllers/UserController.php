@@ -57,8 +57,20 @@ class UserController extends Controller {
     $email = Request::post("email");
     $password = Request::post("password");
 
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($password) <= 3) {
+      Redirect::redirect("/sign-in", ["error" => "Invalid email or password."]);
+    }
+
     if(!Auth::login($email, $password, $this->db)) {
       Redirect::redirect("/sign-in", ["error" => "Invalid email or password."]);
     }
+
+    Redirect::redirect("/", ["success" => "Logged in successfully"]);
+  }
+
+  public function logout() {
+    Auth::logout();
+
+    Redirect::redirect("/", ["success" => "Logged out successfully"]);
   }
 }

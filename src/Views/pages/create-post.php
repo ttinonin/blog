@@ -8,7 +8,7 @@
 
     <div class="py-2">
         <label for="post">Body:</label>
-        <textarea id="post" rows="6" name="post" class="border bg-gray-100 rounded-md p-2 w-full">
+        <textarea id="post" rows="6" name="body" class="border bg-gray-100 rounded-md p-2 w-full">
 
         </textarea>
     </div>

@@ -25,4 +25,13 @@ class Auth {
 
         return false;
     }
+
+    public static function logout() {
+        session_unset();
+        session_destroy();
+    }
+
+    public static function user() {
+        return $_SESSION["user"];
+    }
 }

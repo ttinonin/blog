@@ -16,8 +16,14 @@
             <a href="/php/blog/posts" class="inline-block px-3 m-3"><li>Posts</li></a>
             <a href="/php/blog/user" class="inline-block px-3 m-3"><li>Profile</li></a>
             
-            <a href="/php/blog/create-user" class="inline-block px-3 m-3 bg-green-500 hover:bg-green-700 rounded-md border-2 border-green-700"><li>Sign Up</li></a>
-            <a href="/php/blog/sign-in" class="inline-block px-3 m-3 bg-blue-500 hover:bg-blue-700 rounded-md border-2 border-blue-700"><li>Sign In</li></a>
+            <?php if(App\Services\Auth::isLoggedIn()): ?>
+                <a href="/php/blog/create-user" class="inline-block px-3 m-3 bg-green-500 hover:bg-green-700 rounded-md border-2 border-green-700"><li>Sign Up</li></a>
+                <a href="/php/blog/sign-in" class="inline-block px-3 m-3 bg-blue-500 hover:bg-blue-700 rounded-md border-2 border-blue-700"><li>Sign In</li></a>
+            <?php else: ?>
+                <form action="/php/blog/logout" class="inline-block" method="POST">
+                    <button type="submit" class="inline-block px-3 text-white m-3 bg-red-500 hover:bg-red-700 rounded-md border-2 border-red-700">Logout</button>
+                </form>
+            <?php endif; ?>
         </ul>
     </div>
 </header>
@@ -27,6 +33,14 @@
     
     <div class="bg-red-400 border-2 rounded-lg border-red-600 my-2 p-3">
         <p class="text-red-900">Error: <?= $error ?></p>
+    </div>
+    
+    <?php endif; ?>
+
+    <?php if(isset($success)): ?>
+    
+    <div class="bg-green-400 border-2 rounded-lg border-green-600 my-2 p-3">
+        <p class="text-green-900"><?= $success ?></p>
     </div>
     
     <?php endif; ?>
