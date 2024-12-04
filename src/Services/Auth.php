@@ -20,10 +20,10 @@ class Auth {
 
     public static function isLoggedIn() {
         if(!isset($_SESSION["user"]) || !$_SESSION['user']['logged_in']) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public static function logout() {
