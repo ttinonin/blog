@@ -25,6 +25,7 @@ $router->add('POST', $BASE_PATH . '/logout', [UserController::class, "logout"]);
 // Post related routes
 $router->add('GET', $BASE_PATH . '/create-post', [PostController::class, "create_form"]);
 $router->add('POST', $BASE_PATH . '/post', [PostController::class, "create"]);
+$router->add('GET', $BASE_PATH . '/post/{id}', [PostController::class, "read"]);
 $router->add('GET', $BASE_PATH . '/posts', [PostController::class, "read_all"]);
 
 $router->run(); 

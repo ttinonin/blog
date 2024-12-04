@@ -8,12 +8,12 @@
 </div>
 
 <?php foreach($posts as $post): ?>
-
-    <div class="rounded-xl border bg-gray-100 p-3 cursor-pointer mt-2">
-        <h2 class="text-lg font-bold"><?= $post["title"] ?></h2>
-        <p><?= $post["body"] ?></p>
-    </div>
-    
+    <a href="/php/blog/post/<?= $post["id"]?>">
+        <div class="rounded-xl border bg-gray-100 p-3 cursor-pointer mt-2">
+            <h2 class="text-lg font-bold"><?= $post["title"] ?></h2>
+            <p><?= $post["body"] ?></p>
+        </div>
+    </a>
 <?php endforeach; ?>
 
 <?php require_once(__DIR__ . '/../components/footer.php') ?>

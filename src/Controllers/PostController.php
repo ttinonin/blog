@@ -14,6 +14,14 @@ class PostController extends Controller {
         $this->template->render('create-post');
     }
 
+    public function read() {
+        $post_id = Request::get("id");
+
+        $post = $this->db->selectSingleModel("post", [], ["id" => $post_id]);
+
+        $this->template->with("post", $post)->render("single-post");
+    }
+
     public function create() {
         $title = Request::post('title');
         $body = Request::post('body');

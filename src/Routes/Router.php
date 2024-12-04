@@ -41,6 +41,25 @@ class Router {
         return $name; 
     }
 
+    private function parseRoute(string $routePath, string $currentPath): ?array {
+      $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $routePath);
+      $pattern = "#^{$pattern}$#";
+  
+      if (preg_match($pattern, $currentPath, $matches)) {
+          return array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+      }
+  
+      return null;
+    }
+
+    private function loadController($controller) {
+      [$class, $function] = $controller;
+        
+      $controllerInstance = new $class;
+    
+      $controllerInstance->{$function}();
+    }
+
     /**
      * Load the desired controller for the route
      * 
@@ -53,18 +72,24 @@ class Router {
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
 
         foreach ($this->routes as $route) {
+          $params = $this->parseRoute($route['path'], $name);
+          if ($params) {
+            $key = array_keys($params)[0];
+            $value = array_values($params)[0];
+            
+            $_GET[$key] = $value;
+
+            $this->loadController($route['controller']);
+          }
+
           if (
             !preg_match("#^{$route['path']}$#", $name) ||
             $route['method'] !== $method
           ) {
             continue;
           }
-        
-          [$class, $function] = $route['controller'];
-        
-          $controllerInstance = new $class;
-        
-          $controllerInstance->{$function}();
+
+          $this->loadController($route['controller']);
         }
         
     }
