@@ -44,10 +44,11 @@ class Router {
     /**
      * Load the desired controller for the route
      * 
-     * @param string $name current browser route
      * @return void
      */
-    public function dispatch($name) { 
+    public function run() { 
+        $name = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
         $name = $this->normalizeName($name);
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
 

@@ -17,7 +17,7 @@
             <a href="/php/blog/user" class="inline-block px-3 m-3"><li>Profile</li></a>
             
             <a href="/php/blog/create-user" class="inline-block px-3 m-3 bg-green-500 hover:bg-green-700 rounded-md border-2 border-green-700"><li>Sign Up</li></a>
-            <a href="/php/blog/create-user" class="inline-block px-3 m-3 bg-blue-500 hover:bg-blue-700 rounded-md border-2 border-blue-700"><li>Sign In</li></a>
+            <a href="/php/blog/sign-in" class="inline-block px-3 m-3 bg-blue-500 hover:bg-blue-700 rounded-md border-2 border-blue-700"><li>Sign In</li></a>
         </ul>
     </div>
 </header>

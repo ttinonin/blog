@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Controllers\Controller;
 use App\Routes\Redirect;
 use App\Routes\Request;
+use App\Services\Auth;
 
 class UserController extends Controller {
   public function home() {
@@ -46,5 +47,18 @@ class UserController extends Controller {
     $users = $this->db->selectModel("user");
 
     $this->template->with("users", $users)->render("users");
+  }
+
+  public function sign_in_form() {
+    $this->template->render("sign-in");
+  }
+
+  public function sign_in() {
+    $email = Request::post("email");
+    $password = Request::post("password");
+
+    if(!Auth::login($email, $password, $this->db)) {
+      Redirect::redirect("/sign-in", ["error" => "Invalid email or password."]);
+    }
   }
 }

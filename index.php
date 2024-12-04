@@ -2,6 +2,7 @@
 
 require __DIR__ . "/vendor/autoload.php";
 
+use App\Controllers\PostController;
 use App\Controllers\UserController;
 use App\Routes\Router;
 
@@ -13,6 +14,9 @@ $router->add('GET', $BASE_PATH . '/', [UserController::class, "home"]);
 $router->add('GET', $BASE_PATH . '/create-user', [UserController::class, "create_form"]);
 $router->add('POST', $BASE_PATH . '/user', [UserController::class, "create"]);
 $router->add('GET', $BASE_PATH . '/user', [UserController::class, "read"]);
+$router->add('GET', $BASE_PATH . '/sign-in', [UserController::class, "sign_in_form"]);
+$router->add('POST', $BASE_PATH . '/sign-in', [UserController::class, "sign_in"]);
 
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$router->dispatch($path); 
+$router->add('GET', $BASE_PATH . '/create-post', [PostController::class, "create_form"]);
+
+$router->run(); 
