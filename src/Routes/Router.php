@@ -106,6 +106,7 @@ class Router {
             
             $_GET[$key] = $value;
             
+            $this->middleware($route["middlewares"]);
             $this->loadController($route['controller']);
           }
           

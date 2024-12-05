@@ -27,6 +27,8 @@ abstract class Middleware {
      *   
      *     return true;
      * }
+     * 
+     * @return true | []
      */
     abstract public function handle();
 }
