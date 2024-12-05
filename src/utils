@@ -14,12 +14,108 @@ function run_migrations($manager) {
   $manager->run();
 }
 
-$operation = $argv[1];
-$manager = new MigrationsManager();
+abstract class Builder {
+  abstract public static function build($file_name);
+}
 
-switch($operation) {
+class MiddlewareBuilder extends Builder {
+  public static function build($file_name) {
+    $path = "./Routes/Middlewares/" . $file_name . ".php";
+    $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
+    $content = <<<PHP
+    <?php
+
+    namespace App\Routes\Middlewares;
+
+    use App\Routes\Middlewares\Middleware;
+
+    class $file_name extends Middleware {
+        public function handle() {              
+            return true;
+        }
+    }
+    PHP;
+
+    fwrite($file, $content);
+    fclose($file);
+
+    echo "\033[32m" . $file_name . " created with success at: " . $path . "\033[0m\n";
+  }
+}
+
+class ModelBuilder extends Builder {
+  public static function build($file_name) {
+    $path = "./Models/" . $file_name . ".php";
+    $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
+    $content = <<<PHP
+    <?php
+
+    namespace App\Models;
+
+    use App\Models\Model;
+
+    class $file_name extends Model {
+        
+    }
+    PHP;
+
+    fwrite($file, $content);
+    fclose($file);
+
+    echo "\033[32m" . $file_name . " created with success at: " . $path . "\033[0m\n";
+  }
+}
+
+class ControllerBuilder extends Builder {
+  public static function build($file_name) {
+    $path = "./Controllers/" . $file_name . ".php";
+    $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
+    $content = <<<PHP
+    <?php
+
+    namespace App\Controllers;
+
+    use App\Controllers\Controller;
+
+    class $file_name extends Controller {
+
+    }
+    PHP;
+
+    fwrite($file, $content);
+    fclose($file);
+
+    echo "\033[32m" . $file_name . " created with success at: " . $path . "\033[0m\n";
+  }
+}
+
+function builder($class, $file_name) {
+  switch($class) {
+    case 'middleware':
+      MiddlewareBuilder::build($file_name);
+      break;
+    case 'model':
+      ModelBuilder::build($file_name);
+      break;
+    case 'controller':
+      ControllerBuilder::build($file_name);
+      break;
+    default:
+      break;
+  }
+}
+
+$operation = $argv[1];
+
+$operation = explode(":", $operation);
+
+switch($operation[0]) {
   case 'migrate':
-    run_migrations($manager);
+    $migrations_manager = new MigrationsManager();
+    run_migrations($migrations_manager);
+    break;
+  case 'build':
+    builder($operation[1], $argv[2]);
     break;
   default:
     break;
