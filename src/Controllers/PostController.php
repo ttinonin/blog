@@ -22,6 +22,14 @@ class PostController extends Controller {
         $this->template->with("post", $post)->render("single-post");
     }
 
+    public function delete() {
+        $post_id = Request::get("id");
+
+        $this->db->delete("post", ["id" => $post_id]);
+
+        Redirect::redirect("/posts", ["success" => "Post deleted with success"]);
+    }
+
     public function create() {
         $title = Request::post('title');
         $body = Request::post('body');

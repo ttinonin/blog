@@ -4,6 +4,7 @@ namespace App\Database;
 
 use PDO;
 use App\Models\Model;
+use Exception;
 
 class Database {
   public $connection;
@@ -91,6 +92,39 @@ class Database {
 
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function delete($model, $condition = []) {
+    if(empty($condition)) {
+      throw new Exception("Can't delete without WHERE condition");
+    }
+
+    $condition_size = count($condition);
+    $iteration = 0;
+    
+    $table = strtolower($model . 's');
+
+    $query_str = "DELETE FROM " . $table . " WHERE ";
+    foreach($condition as $key=>$value) {
+      $iteration++;
+
+      if($condition_size === $iteration) {
+        $query_str .= $key . " = :" . $key;
+        continue;
+      }
+
+      $query_str .= $key . " = :" . $key . " AND ";
+    }
+
+    $query = $this->connection->prepare($query_str);
+    $iteration = 0;
+    foreach($condition as $key=>$value) {
+      $param_type = $this->getPDOType($value);
+      $query->bindValue(":" . $key, $value, $param_type);
+    }
+
+    $query->execute();
+    $query->fetch(PDO::FETCH_ASSOC);
   }
 
   public function selectSingleModel($model, $params = [], $where = []) {

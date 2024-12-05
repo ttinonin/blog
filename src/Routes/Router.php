@@ -2,12 +2,17 @@
 
 namespace App\Routes;
 
+use App\Routes\Middlewares\MiddlewareManager;
+
 class Router {
     private $routes = [];
+    private $middleware_manager;
 
     public function __construct()
     {
       session_start();
+
+      $this->middleware_manager = new MiddlewareManager();
     }
 
     /**
@@ -18,14 +23,14 @@ class Router {
      * @param mixed[] $controller Route controller
      * @return void
      */
-    public function add($method, $name, $controller) {
+    public function add($method, $name, $controller, $middlewares = []) {
         $name = $this->normalizeName($name);
 
         $this->routes[] = [
             'path' => $name,
             'method' => strtoupper($method),
             'controller' => $controller,
-            'middlewares' => []
+            'middlewares' => $middlewares
         ];
     }
 
@@ -41,7 +46,7 @@ class Router {
         return $name; 
     }
 
-    private function parseRoute(string $routePath, string $currentPath): ?array {
+    private function parseRoute(string $routePath, string $currentPath) {
       $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $routePath);
       $pattern = "#^{$pattern}$#";
   
@@ -60,6 +65,22 @@ class Router {
       $controllerInstance->{$function}();
     }
 
+    private function middleware($middlewares) {
+      if(empty($middlewares)) {
+        return;
+      }
+
+      foreach($middlewares as $middleware) {
+        $condition = $this->middleware_manager->load($middleware);
+
+        if($condition === true) {
+          continue;
+        }
+
+        Redirect::redirect($condition["redirect"], ["error" => $condition["message"]]);
+      }
+    }
+
     /**
      * Load the desired controller for the route
      * 
@@ -72,22 +93,28 @@ class Router {
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
 
         foreach ($this->routes as $route) {
+          if($route['method'] !== $method) {
+            continue;
+          }
+          
+          
           $params = $this->parseRoute($route['path'], $name);
           if ($params) {
             $key = array_keys($params)[0];
             $value = array_values($params)[0];
             
             $_GET[$key] = $value;
-
+            
             $this->loadController($route['controller']);
           }
-
+          
           if (
-            !preg_match("#^{$route['path']}$#", $name) ||
-            $route['method'] !== $method
+            !preg_match("#^{$route['path']}$#", $name)
           ) {
             continue;
           }
+
+          $this->middleware($route["middlewares"]);
 
           $this->loadController($route['controller']);
         }

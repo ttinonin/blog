@@ -44,9 +44,11 @@ class UserController extends Controller {
   }
 
   public function read() {
-    $users = $this->db->selectModel("user");
+    $user_id = Request::get('id');
 
-    $this->template->with("users", $users)->render("users");
+    $user = $this->db->selectSingleModel("user", [], ["id" => $user_id]);
+
+    $this->template->with("user", $user)->render("single-user");
   }
 
   public function sign_in_form() {
