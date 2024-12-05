@@ -9,6 +9,7 @@ class Auth {
         $user = $db->selectSingleModel("user", [], ["email" => $email]);
 
         if(password_verify($password, $user["password"])) {
+            session_regenerate_id(true);
             $user["logged_in"] = true;
             $_SESSION["user"] = $user;
 
