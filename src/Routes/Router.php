@@ -77,6 +77,7 @@ class Router {
           continue;
         }
 
+        http_response_code(401);
         Redirect::redirect($condition["redirect"], ["error" => $condition["message"]]);
       }
     }

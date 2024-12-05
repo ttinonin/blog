@@ -20,13 +20,13 @@ $router->add('GET', $BASE_PATH . '/user/{id}', [UserController::class, "read"]);
 // Auth related routes
 $router->add('GET', $BASE_PATH . '/sign-in', [UserController::class, "sign_in_form"]);
 $router->add('POST', $BASE_PATH . '/sign-in', [UserController::class, "sign_in"]);
-$router->add('POST', $BASE_PATH . '/logout', [UserController::class, "logout"]);
+$router->add('POST', $BASE_PATH . '/logout', [UserController::class, "logout"], ["auth"]);
 
 // Post related routes
 $router->add('GET', $BASE_PATH . '/create-post', [PostController::class, "create_form"], ["auth"]);
-$router->add('POST', $BASE_PATH . '/post', [PostController::class, "create"]);
+$router->add('POST', $BASE_PATH . '/post', [PostController::class, "create"], ["auth"]);
 $router->add('GET', $BASE_PATH . '/post/{id}', [PostController::class, "read"]);
 $router->add('GET', $BASE_PATH . '/posts', [PostController::class, "read_all"]);
-$router->add('POST', $BASE_PATH . '/delete-post/{id}', [PostController::class, "delete"]);
+$router->add('POST', $BASE_PATH . '/delete-post/{id}', [PostController::class, "delete"], ["auth"]);
 
 $router->run(); 
