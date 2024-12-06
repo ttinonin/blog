@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost/php/blog/output.css">
     <title>Blog</title>
 </head>
 <body>
-
 <header class="bg-violet-900 text-white">
     <div class="container mx-auto flex items-center justify-between">
         <h1 class="text-lg font-bold m-3">Daniel's Blog</h1>

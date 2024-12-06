@@ -1,0 +1,17 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile-css": "npx tailwindcss -i ./src/Views/css/tailwind.css -o ./output.css --minify",
+    "watch-css": "npx tailwindcss -i ./src/Views/css/tailwind.css -o ./output.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
+  }
+}
