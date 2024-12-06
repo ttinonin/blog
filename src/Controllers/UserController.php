@@ -37,6 +37,12 @@ class UserController extends Controller {
     }
     
     $this->db->insertModel($user);
+
+    if(!Auth::login($email, $password, $this->db)) {
+      Redirect::redirect("/sign-in", ["error" => "Invalid email or password."]);
+    }
+
+    Redirect::redirect("/", ["success" => "Account created successfully"]);
   }
 
   public function create_form() {

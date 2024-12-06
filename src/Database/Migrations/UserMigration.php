@@ -13,7 +13,7 @@ class UserMigration extends Migration {
         username varchar(255) NOT NULL UNIQUE,
         email varchar(255) NOT NULL UNIQUE,
         password varchar(255) NOT NULL,
-        role INT DEFAULT 0,
+        is_admin INT DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     ";

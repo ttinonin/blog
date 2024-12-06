@@ -2,9 +2,11 @@
 
 <div class="flex items-center justify-between">
     <h1 class="text-lg">Posts</h1>
-    <a href="/php/blog/create-post">
-        <button class="bg-green-500 hover:bg-green-600 w-full font-semibold text-white px-3 py-1 rounded-md">+ Create</button>
-    </a>
+    <?php if(App\Services\Policies\PostPolicy::can_create()): ?>
+        <a href="/php/blog/create-post">
+            <button class="bg-green-500 hover:bg-green-600 w-full font-semibold text-white px-3 py-1 rounded-md">+ Create</button>
+        </a>
+    <?php endif; ?>
 </div>
 
 <?php foreach($posts as $post): ?>

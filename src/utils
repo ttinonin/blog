@@ -10,10 +10,6 @@ if(!isset($argv[1])) {
   exit(1);
 }
 
-function run_migrations($manager) {
-  $manager->run();
-}
-
 abstract class Builder {
   abstract public static function build($file_name);
 }
@@ -105,6 +101,19 @@ function builder($class, $file_name) {
   }
 }
 
+function migrate($operation, $manager) {
+  switch($operation) {
+    case 'run':
+      $manager->run();
+      break;
+    case 'drop':
+      $manager->drop();
+      break;
+    default:
+      break;
+  }
+}
+
 $operation = $argv[1];
 
 $operation = explode(":", $operation);
@@ -112,7 +121,7 @@ $operation = explode(":", $operation);
 switch($operation[0]) {
   case 'migrate':
     $migrations_manager = new MigrationsManager();
-    run_migrations($migrations_manager);
+    migrate($operation[1], $migrations_manager);
     break;
   case 'build':
     builder($operation[1], $argv[2]);
