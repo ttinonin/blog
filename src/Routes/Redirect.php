@@ -15,6 +15,11 @@ class Redirect {
         exit();
     }
 
+    public static function back() {
+        header('Location: ' . $_SERVER['HTTP_REFERER'], true);
+        exit();
+    }
+
     public static function getFlashData() {
         if (isset($_SESSION['flash_data'])) {
             $data = $_SESSION['flash_data'];

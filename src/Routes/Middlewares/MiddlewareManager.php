@@ -3,6 +3,7 @@
 namespace App\Routes\Middlewares;
 
 use App\Routes\Middlewares\AuthMiddleware;
+use App\Routes\Middlewares\AdminMiddleware;
 
 /**
  * MiddlewareManager calls Middlewares basic functions
@@ -14,7 +15,8 @@ class MiddlewareManager {
 
     public function __construct() {
         $this->middlewares = [
-            "auth" => new AuthMiddleware()
+            "auth" => new AuthMiddleware(),
+            "admin" => new AdminMiddleware(),
         ];
     }
 

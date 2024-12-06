@@ -110,6 +110,7 @@ function migrate($operation, $manager) {
       $manager->drop();
       break;
     default:
+      die("\033[31m Error: Migration operation not found. \033[0m\n");
       break;
   }
 }
@@ -127,5 +128,6 @@ switch($operation[0]) {
     builder($operation[1], $argv[2]);
     break;
   default:
+    die("\033[31m Error: Operation not found. \033[0m\n");
     break;
 }

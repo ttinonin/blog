@@ -8,6 +8,7 @@ use App\Services\Auth;
 use App\Routes\Request;
 use App\Routes\Redirect;
 use App\Controllers\Controller;
+use App\Services\Policies\PostPolicy;
 
 class PostController extends Controller {
     public function create_form() {
@@ -23,6 +24,8 @@ class PostController extends Controller {
     }
 
     public function delete() {
+        $this->can("create", PostPolicy::class);
+
         $post_id = Request::get("id");
 
         $this->db->delete("post", ["id" => $post_id]);
@@ -31,6 +34,8 @@ class PostController extends Controller {
     }
 
     public function create() {
+        $this->can("create", PostPolicy::class);
+
         $title = Request::post('title');
         $body = Request::post('body');
         $user = Auth::user();

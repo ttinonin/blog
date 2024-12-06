@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Views\Template;
 use App\Database\Database;
+use App\Routes\Redirect;
 
 /**
  * Controller is a base class
@@ -27,6 +28,21 @@ class Controller {
         $this->db->connect();
 
         $this->template = new Template();
+    }
+
+    /**
+     * Called to check if the user can proceed on the controller
+     */
+    protected function can($function, $policy, $redirect = null) {
+        $method = "can_" . $function;
+
+        if($policy::$method()) {
+            return true;
+        }
+
+        if(!$redirect) {
+            Redirect::back();
+        }
     }
 
     /** Must be overrided for POST */
