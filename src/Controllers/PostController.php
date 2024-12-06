@@ -18,9 +18,13 @@ class PostController extends Controller {
     public function read() {
         $post_id = Request::get("id");
 
-        $post = $this->db->selectSingleModel("post", [], ["id" => $post_id]);
+        $post = $this->db->raw("
+            SELECT * FROM posts
+            INNER JOIN users ON users.id = posts.user_id
+            WHERE posts.id = :id
+        ", [":id" => $post_id]);
 
-        $this->template->with("post", $post)->render("single-post");
+        $this->template->with("post", $post[0])->render("single-post");
     }
 
     public function delete() {

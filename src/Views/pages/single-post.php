@@ -10,6 +10,10 @@
 
 <p><?= $post["body"] ?></p>
 
+<div class="text-gray-500 text-sm italic text-left mt-3">
+  Posted by: <span class="font-semibold text-gray-700"><?= $post["username"] ?></span>
+</div>
+
 <?php if(App\Services\Policies\PostPolicy::can_create()): ?>
     <form action="/php/blog/delete-post/<?= $post["id"] ?>" method="POST">
         <button type="submit" class="px-5 py-2 text-white mt-3 bg-red-500 hover:bg-red-700 rounded-md">Delete</button>

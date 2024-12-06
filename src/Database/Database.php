@@ -25,21 +25,33 @@ class Database {
   }
 
   /**
-   *  Insert data into a table
-   *
-   *  @param string $table Table name
-   *  @param string[] $params List of params from model
-   *  @param mixed[] $values List of values from model
-   *  @return void
-   * */
-  public function insertRaw($table, $params, $values) {
-    $query_string = "INSERT INTO " . $table . " (";
+   * Runs a raw query
+   * 
+   * @param string $query_str Raw query
+   * @param string[] $where Associative array with where param and condition
+   * @return array
+   */
+  public function raw($query_str, $where = []) {
+    $query = $this->connection->prepare($query_str);
+    
+    if(!empty($where)) {
+      foreach($where as $condition=>$value) {
+        $param_type = $this->getPDOType($value);
+        $query->bindValue($condition, $value, $param_type);
+      }
+    }
 
-    $query = $this->connection->prepare("");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
+   * Runs a select query based on a model name
    * 
+   * @param string $model Model name
+   * @param string[]|null $params Columns names to select
+   * @param string[]|null $where Associative array with where param and condition
+   * @return array
    */
   public function selectModel($model, $params = [], $where = []) {
     $table = strtolower($model . 's');
@@ -65,6 +77,8 @@ class Database {
     }
 
     if(empty($where)) {
+      $query_str .= " ORDER BY created_at DESC ";
+
       $query = $this->connection->prepare($query_str);
       $query->execute();
       return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -83,6 +97,8 @@ class Database {
       $query_str .= $condition . " = :" . $condition . " AND "; 
     }
 
+    $query_str .= " ORDER BY created_at DESC ";
+
     $query = $this->connection->prepare($query_str);
     $iteration = 0;
     foreach($where as $condition=>$value) {
@@ -94,7 +110,14 @@ class Database {
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function delete($model, $condition = []) {
+  /**
+   * Runs a delete query based on a condition
+   * 
+   * @param string $model Model name
+   * @param string[] $condition Associative array with where param and condition
+   * @return void
+   */
+  public function delete($model, $condition) {
     if(empty($condition)) {
       throw new Exception("Can't delete without WHERE condition");
     }
@@ -127,6 +150,14 @@ class Database {
     $query->fetch(PDO::FETCH_ASSOC);
   }
 
+  /**
+   * Runs a select query based on a model name, returning only one ocurrency
+   * 
+   * @param string $model Model name
+   * @param string[]|null $params Columns names to select
+   * @param string[]|null $where Associative array with where param and condition
+   * @return array
+   */
   public function selectSingleModel($model, $params = [], $where = []) {
     $table = strtolower($model . 's');
     $param_size = count($params);
