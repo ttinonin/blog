@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . "/../vendor/autoload.php";
+require __DIR__ . "/vendor/autoload.php";
 
 use App\Database\Migrations\MigrationsManager;
 
@@ -16,7 +16,7 @@ abstract class Builder {
 
 class MiddlewareBuilder extends Builder {
   public static function build($file_name) {
-    $path = "./Routes/Middlewares/" . $file_name . ".php";
+    $path = __DIR__ . "/src/Routes/Middlewares/" . $file_name . ".php";
     $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
     $content = <<<PHP
     <?php
@@ -41,7 +41,7 @@ class MiddlewareBuilder extends Builder {
 
 class ModelBuilder extends Builder {
   public static function build($file_name) {
-    $path = "./Models/" . $file_name . ".php";
+    $path = __DIR__ . "/src/Models/" . $file_name . ".php";
     $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
     $content = <<<PHP
     <?php
@@ -64,7 +64,7 @@ class ModelBuilder extends Builder {
 
 class ControllerBuilder extends Builder {
   public static function build($file_name) {
-    $path = "./Controllers/" . $file_name . ".php";
+    $path = __DIR__ . "/src/Controllers/" . $file_name . ".php";
     $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
     $content = <<<PHP
     <?php
@@ -126,6 +126,15 @@ switch($operation[0]) {
     break;
   case 'build':
     builder($operation[1], $argv[2]);
+    break;
+  case 'start':
+    $host = '127.0.0.1';
+    $port = '8000';
+    
+    echo "\033[32mStarting development server at http://$host:$port\033[0m\n";
+    echo "Press Ctrl+C to stop the server\n";
+    
+    exec("php -S $host:$port -t public");
     break;
   default:
     die("\033[31m Error: Operation not found. \033[0m\n");
