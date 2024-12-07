@@ -11,13 +11,11 @@ class Redirect {
      * @return void
      */
     public static function redirect($url, $data = []) {
-        $BASE_URL = "/php/blog";
-        
         if (!empty($data)) {
             $_SESSION['flash_data'] = $data;
         }
 
-        header('Location: ' . $BASE_URL . $url, true);
+        header('Location: ' . $url, true);
         exit();
     }
 

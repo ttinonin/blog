@@ -1,6 +1,6 @@
 <?php require_once(__DIR__ . '/../components/header.php') ?>
 
-<form action="/php/blog/post" method="POST">
+<form action="/post" method="POST">
     <div class="py-2">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" class="border bg-gray-100 rounded-md p-2 w-full">

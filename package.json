@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile-css": "npx tailwindcss -i ./src/Views/css/tailwind.css -o ./output.css --minify",
-    "watch-css": "npx tailwindcss -i ./src/Views/css/tailwind.css -o ./output.css --watch"
+    "compile-css": "npx tailwindcss -i ./src/Views/css/tailwind.css -o ./public/output.css --minify",
+    "watch-css": "npx tailwindcss -i ./src/Views/css/tailwind.css -o ./public/output.css --watch"
   },
   "author": "",
   "license": "ISC",

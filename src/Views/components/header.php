@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost/php/blog/output.css">
+    <link rel="stylesheet" href="http://localhost:8000/output.css">
     <title>Blog</title>
 </head>
 <body>
@@ -12,15 +12,15 @@
         <h1 class="text-lg font-bold m-3">Daniel's Blog</h1>
 
         <ul>
-            <a href="/php/blog/" class="inline-block px-3 m-3"><li>Home</li></a>
-            <a href="/php/blog/posts" class="inline-block px-3 m-3"><li>Posts</li></a>
+            <a href="/" class="inline-block px-3 m-3"><li>Home</li></a>
+            <a href="/posts" class="inline-block px-3 m-3"><li>Posts</li></a>
             
             <?php if(!App\Services\Auth::isLoggedIn()): ?>
-                <a href="/php/blog/create-user" class="inline-block px-3 m-3 bg-green-500 hover:bg-green-700 rounded-md border-2 border-green-700"><li>Sign Up</li></a>
-                <a href="/php/blog/sign-in" class="inline-block px-3 m-3 bg-blue-500 hover:bg-blue-700 rounded-md border-2 border-blue-700"><li>Sign In</li></a>
+                <a href="/create-user" class="inline-block px-3 m-3 bg-green-500 hover:bg-green-700 rounded-md border-2 border-green-700"><li>Sign Up</li></a>
+                <a href="/sign-in" class="inline-block px-3 m-3 bg-blue-500 hover:bg-blue-700 rounded-md border-2 border-blue-700"><li>Sign In</li></a>
             <?php else: ?>
-                <a href="/php/blog/user/<?= App\Services\Auth::user()["id"] ?>" class="inline-block px-3 m-3"><li>Profile</li></a>
-                <form action="/php/blog/logout" class="inline-block" method="POST">
+                <a href="/user/<?= App\Services\Auth::user()["id"] ?>" class="inline-block px-3 m-3"><li>Profile</li></a>
+                <form action="/logout" class="inline-block" method="POST">
                     <button type="submit" class="inline-block px-3 text-white m-3 bg-red-500 hover:bg-red-700 rounded-md border-2 border-red-700">Logout</button>
                 </form>
             <?php endif; ?>

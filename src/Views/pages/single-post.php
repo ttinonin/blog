@@ -15,7 +15,7 @@
 </div>
 
 <?php if(App\Services\Policies\PostPolicy::can_create()): ?>
-    <form action="/php/blog/delete-post/<?= $post["id"] ?>" method="POST">
+    <form action="/delete-post/<?= $post["id"] ?>" method="POST">
         <button type="submit" class="px-5 py-2 text-white mt-3 bg-red-500 hover:bg-red-700 rounded-md">Delete</button>
     </form>
 <?php endif; ?>

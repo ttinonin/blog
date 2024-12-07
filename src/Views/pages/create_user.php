@@ -1,6 +1,6 @@
 <?php require_once(__DIR__ . '/../components/header.php') ?>
 
-<form action="/php/blog/user" method="POST">
+<form action="/user" method="POST">
     <div class="py-2">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" class="border bg-gray-100 rounded-md p-2 w-full">
