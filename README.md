@@ -21,9 +21,41 @@ The project includes a custom lightweight PHP framework with the following featu
 
 ### CLI
 
-To use the CLI you must go inside the `src/` folder (`cd src/`) and then run on terminal:
+To use the CLI run on your terminal:
 
-`$php utils --help`
+`php utils --help`
+
+## Instalation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/ttinonin/blog.git
+cd blog/
+```
+
+2. Install dependencies:
+
+```bash
+composer install
+npm install
+```
+
+3. Set up the database:
+
+- Inside `src/Database/Database.php` set PDO parameters with database info.
+
+- Run the migrations:
+
+```bash
+php utils migrate:run
+```
+
+4. Start the server:
+
+```bash
+php utils start
+```
 
 ## Contributing
 
