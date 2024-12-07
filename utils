@@ -15,8 +15,6 @@ if(!isset($argv[1])) {
   exit(1);
 }
 
-$flags = new Flags();
-
 function builder($class, $file_name) {
   if(!isset($class)) {
     fwrite(STDERR, "Error: Class to build not provided!\n");
@@ -60,12 +58,7 @@ function migrate($operation, $manager) {
   }
 }
 
-$operation = $argv[1];
-
-$operation = explode(":", $operation);
-
-function get_flags() {
-  global $flags;
+function get_flags($flags) {
   global $argv;
 
   foreach($argv as $argument) {
@@ -84,26 +77,39 @@ function get_flags() {
   }
 }
 
-get_flags();
 
-switch($operation[0]) {
-  case 'migrate':
-    $migrations_manager = new MigrationsManager();
-    migrate($operation[1], $migrations_manager);
-    break;
-  case 'build':
-    builder($operation[1], $argv[2]);
-    break;
-  case 'start':
-    $host = $flags->get("host") ?? '127.0.0.1';
-    $port = $flags->get("port") ?? '8000';
-    
-    echo "\033[32mStarting development server at http://$host:$port\033[0m\n";
-    echo "Press Ctrl+C to stop the server\n";
-    
-    exec("php -S $host:$port -t public");
-    break;
-  default:
-    die("\033[31m Error: Operation not found. \033[0m\n");
-    break;
+function main() {
+  $flags = new Flags();
+
+  get_flags($flags);
+
+  global $argv;
+
+  $operation = $argv[1];
+
+  $operation = explode(":", $operation);
+
+  switch($operation[0]) {
+    case 'migrate':
+      $migrations_manager = new MigrationsManager();
+      migrate($operation[1], $migrations_manager);
+      break;
+    case 'build':
+      builder($operation[1], $argv[2]);
+      break;
+    case 'start':
+      $host = $flags->get("host") ?? '127.0.0.1';
+      $port = $flags->get("port") ?? '8000';
+      
+      echo "\033[32mStarting development server at http://$host:$port\033[0m\n";
+      echo "Press Ctrl+C to stop the server\n";
+      
+      exec("php -S $host:$port -t public");
+      break;
+    default:
+      die("\033[31m Error: Operation not found. \033[0m\n");
+      break;
+  }
 }
+
+main();
