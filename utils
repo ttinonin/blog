@@ -4,104 +4,15 @@ require __DIR__ . "/vendor/autoload.php";
 
 use App\Database\Migrations\MigrationsManager;
 
+use Utils\Flags;
+use Utils\Builders\MiddlewareBuilder;
+use Utils\Builders\ModelBuilder;
+use Utils\Builders\ControllerBuilder;
+
 if(!isset($argv[1])) {
   fwrite(STDERR, "Error: Operation not provided!\n");
   fwrite(STDERR, "Usage: php utils <operation>\n");
   exit(1);
-}
-
-class Flags {
-  private $flags = [];
-
-  public function add($flag) {
-    $argument = explode("=", $flag)[1];
-    $key = str_replace("-", "", explode("=", $flag)[0]);
-
-    $this->flags[$key] = $argument;
-  }
-
-  public function get($key) {
-    if(isset($this->flags[$key])) {
-      return $this->flags[$key];
-    }
-    
-    return null;
-  }
-}
-
-abstract class Builder {
-  abstract public static function build($file_name);
-}
-
-class MiddlewareBuilder extends Builder {
-  public static function build($file_name) {
-    $path = __DIR__ . "/src/Routes/Middlewares/" . $file_name . ".php";
-    $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
-    $content = <<<PHP
-    <?php
-
-    namespace App\Routes\Middlewares;
-
-    use App\Routes\Middlewares\Middleware;
-
-    class $file_name extends Middleware {
-        public function handle() {              
-            return true;
-        }
-    }
-    PHP;
-
-    fwrite($file, $content);
-    fclose($file);
-
-    echo "\033[32m" . $file_name . " created with success at: " . $path . "\033[0m\n";
-  }
-}
-
-class ModelBuilder extends Builder {
-  public static function build($file_name) {
-    $path = __DIR__ . "/src/Models/" . $file_name . ".php";
-    $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
-    $content = <<<PHP
-    <?php
-
-    namespace App\Models;
-
-    use App\Models\Model;
-
-    class $file_name extends Model {
-        
-    }
-    PHP;
-
-    fwrite($file, $content);
-    fclose($file);
-
-    echo "\033[32m" . $file_name . " created with success at: " . $path . "\033[0m\n";
-  }
-}
-
-class ControllerBuilder extends Builder {
-  public static function build($file_name) {
-    $path = __DIR__ . "/src/Controllers/" . $file_name . ".php";
-    $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
-    $content = <<<PHP
-    <?php
-
-    namespace App\Controllers;
-
-    use App\Controllers\Controller;
-
-    class $file_name extends Controller {
-
-    }
-    PHP;
-
-    fwrite($file, $content);
-    fclose($file);
-
-    echo "\033[32m" . $file_name . " created with success at: " . $path . "\033[0m\n";
-  }
 }
 
 $flags = new Flags();
@@ -153,33 +64,6 @@ $operation = $argv[1];
 
 $operation = explode(":", $operation);
 
-function help() {
-  echo <<<EOL
-  PHP Utils v1.0.0
-  
-  Description:
-    CLI to build files, manage migrations and run the development server.
-  
-  Build:
-    build:middleware <class_name>  Create a middleware file with the given class name
-    build:model <class_name>       Create a model file with the given class name
-    build:controller <class_name>  Create a controller file with the given class name
-  
-  Migrate:
-    migrate:run              Execute all migrations inside the MigrationsManager
-    migrate:drop             Drop all tables inside the MigrationsManager
-  
-  Server:
-    start                    Start the development server on localhost
-  
-  Examples:
-    php utils.php start --port=8080
-    php utils.php build:middleware AuthMiddleware
-    php utils.php migrate:run
-  
-  EOL;
-}
-
 function get_flags() {
   global $flags;
   global $argv;
@@ -191,8 +75,7 @@ function get_flags() {
 
     switch($argument) {
       case "--help":
-        help();
-        exit();
+        $flags->help();
         break;
       default:
         $flags->add($argument);

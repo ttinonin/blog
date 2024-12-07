@@ -23,7 +23,9 @@ The project includes a custom lightweight PHP framework with the following featu
 
 To use the CLI run on your terminal:
 
-`php utils --help`
+```bash
+php utils --help
+```
 
 ## Instalation
 
