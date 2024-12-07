@@ -10,6 +10,25 @@ if(!isset($argv[1])) {
   exit(1);
 }
 
+class Flags {
+  private $flags = [];
+
+  public function add($flag) {
+    $argument = explode("=", $flag)[1];
+    $key = str_replace("-", "", explode("=", $flag)[0]);
+
+    $this->flags[$key] = $argument;
+  }
+
+  public function get($key) {
+    if(isset($this->flags[$key])) {
+      return $this->flags[$key];
+    }
+    
+    return null;
+  }
+}
+
 abstract class Builder {
   abstract public static function build($file_name);
 }
@@ -85,7 +104,21 @@ class ControllerBuilder extends Builder {
   }
 }
 
+$flags = new Flags();
+
 function builder($class, $file_name) {
+  if(!isset($class)) {
+    fwrite(STDERR, "Error: Class to build not provided!\n");
+    fwrite(STDERR, "Usage: php utils build:<class_type> <file_name|class_name>\n");
+    exit(1);
+  }
+
+  if(!isset($file_name)) {
+    fwrite(STDERR, "Error: File name not provided!\n");
+    fwrite(STDERR, "Usage: php utils build:$class <file_name|class_name>\n");
+    exit(1);
+  }
+
   switch($class) {
     case 'middleware':
       MiddlewareBuilder::build($file_name);
@@ -97,6 +130,7 @@ function builder($class, $file_name) {
       ControllerBuilder::build($file_name);
       break;
     default:
+      die("\033[31m Error: Build operation not found. \033[0m\n");
       break;
   }
 }
@@ -119,6 +153,56 @@ $operation = $argv[1];
 
 $operation = explode(":", $operation);
 
+function help() {
+  echo <<<EOL
+  PHP Utils v1.0.0
+  
+  Description:
+    CLI to build files, manage migrations and run the development server.
+  
+  Build:
+    build:middleware <class_name>  Create a middleware file with the given class name
+    build:model <class_name>       Create a model file with the given class name
+    build:controller <class_name>  Create a controller file with the given class name
+  
+  Migrate:
+    migrate:run              Execute all migrations inside the MigrationsManager
+    migrate:drop             Drop all tables inside the MigrationsManager
+  
+  Server:
+    start                    Start the development server on localhost
+  
+  Examples:
+    php utils.php start --port=8080
+    php utils.php build:middleware AuthMiddleware
+    php utils.php migrate:run
+  
+  EOL;
+}
+
+function get_flags() {
+  global $flags;
+  global $argv;
+
+  foreach($argv as $argument) {
+    if(!str_contains($argument, "--")) {
+      continue;
+    }
+
+    switch($argument) {
+      case "--help":
+        help();
+        exit();
+        break;
+      default:
+        $flags->add($argument);
+        break;
+    }
+  }
+}
+
+get_flags();
+
 switch($operation[0]) {
   case 'migrate':
     $migrations_manager = new MigrationsManager();
@@ -128,8 +212,8 @@ switch($operation[0]) {
     builder($operation[1], $argv[2]);
     break;
   case 'start':
-    $host = '127.0.0.1';
-    $port = '8000';
+    $host = $flags->get("host") ?? '127.0.0.1';
+    $port = $flags->get("port") ?? '8000';
     
     echo "\033[32mStarting development server at http://$host:$port\033[0m\n";
     echo "Press Ctrl+C to stop the server\n";
