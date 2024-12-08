@@ -16,6 +16,7 @@ class Flags {
           build:middleware <class_name>  Create a middleware file with the given class name
           build:model <class_name>       Create a model file with the given class name
           build:controller <class_name>  Create a controller file with the given class name
+          build:migration <class_name>   Create a migration file with the given class name
         
         Migrate:
           migrate:run              Execute all migrations inside the MigrationsManager
