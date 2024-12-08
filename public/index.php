@@ -1,4 +1,10 @@
 <?php
+/*
+ * MIT License
+ * Copyright (c) 2024 Thiago Monteiro Tinonin
+ * 
+ * See the LICENSE file for more information.
+*/
 
 ini_set('session.cookie_secure', '1');
 ini_set('session.cookie_httponly', '1');
