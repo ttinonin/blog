@@ -2,6 +2,6 @@
 
 namespace Utils\Builders;
 
-abstract class Builder {
-    abstract public static function build($file_name);
+interface Builder {
+    public static function build($file_name);
 }

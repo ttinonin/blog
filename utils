@@ -8,6 +8,7 @@ use Utils\Flags;
 use Utils\Builders\MiddlewareBuilder;
 use Utils\Builders\ModelBuilder;
 use Utils\Builders\ControllerBuilder;
+use Utils\Builders\MigrationBuilder;
 
 if(!isset($argv[1])) {
   fwrite(STDERR, "Error: Operation not provided!\n");
@@ -37,6 +38,9 @@ function builder($class, $file_name) {
       break;
     case 'controller':
       ControllerBuilder::build($file_name);
+      break;
+    case 'migration':
+      MigrationBuilder::build($file_name);
       break;
     default:
       die("\033[31m Error: Build operation not found. \033[0m\n");

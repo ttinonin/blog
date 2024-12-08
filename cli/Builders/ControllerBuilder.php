@@ -4,7 +4,7 @@ namespace Utils\Builders;
 
 use Utils\Builders\Builder;
 
-class ControllerBuilder extends Builder {
+class ControllerBuilder implements Builder {
     public static function build($file_name) {
       $path = __DIR__ . "/../../src/Controllers/" . $file_name . ".php";
       $file = fopen($path, "w") or die("\033[31m Error creating the file \033[0m\n");
