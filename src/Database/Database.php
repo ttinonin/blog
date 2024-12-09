@@ -6,9 +6,15 @@ use PDO;
 use App\Models\Model;
 use Exception;
 
+/**
+ * The Database class is already instantiated in the Controller constructors. Do not instantiate this class manually.
+ */
 class Database {
   public $connection;
 
+  /**
+   * Connect to the database
+   */
   public function connect() {
     try {
       $this->connection = new PDO("mysql:host=localhost;dbname=blogdb;charset=utf8", "root", "root");
@@ -26,6 +32,9 @@ class Database {
 
   /**
    * Runs a raw query
+   * 
+   * Example usage:
+   * $this->db->raw("SELECT * FROM users WHERE id = :id", [":id" => 3]);
    * 
    * @param string $query_str Raw query
    * @param string[] $where Associative array with where param and condition
@@ -47,6 +56,9 @@ class Database {
 
   /**
    * Runs a select query based on a model name
+   * 
+   * Example usage:
+   * $this->db->selectModel("user", [], ["id" => 3]);
    * 
    * @param string $model Model name
    * @param string[]|null $params Columns names to select
@@ -113,6 +125,9 @@ class Database {
   /**
    * Runs a delete query based on a condition
    * 
+   * Example usage:
+   * $this->db->delete("user", ["id" => 3]);
+   * 
    * @param string $model Model name
    * @param string[] $condition Associative array with where param and condition
    * @return void
@@ -152,6 +167,9 @@ class Database {
 
   /**
    * Runs a select query based on a model name, returning only one ocurrency
+   * 
+   * Example usage:
+   * $this->db->selectModel("user", [], ["id" => 3]);
    * 
    * @param string $model Model name
    * @param string[]|null $params Columns names to select
@@ -212,7 +230,10 @@ class Database {
   }
 
   /**
-   * Insert the model based on its name and params
+   * Insert a model into the database
+   * 
+   * Example usage:
+   * $this->db->insertModel($user);
    * 
    * @param Model $model Model reference
    * @return boolean

@@ -3,8 +3,9 @@
 namespace App\Services\Policies;
 
 use App\Services\Auth;
+use App\Services\Policies\Policy;
 
-class PostPolicy {
+class PostPolicy extends Policy {
     public static function can_create() {
         $user = Auth::user();
 

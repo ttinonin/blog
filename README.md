@@ -19,6 +19,14 @@ The project includes a custom lightweight PHP framework with the following featu
 - Policies: Ensure that users can only perform actions they are permitted to.
 - CLI: Custom CLI, for creating Middlewares, Controllers, Models and run Migrations operations.
 
+### Documentation
+
+To read the framework documentation, install phpDocumentor and run the following command in your terminal:
+
+```bash
+php phpDocumentor.phar -d src -t framework-docs
+```
+
 ### CLI
 
 To use the CLI run on your terminal:

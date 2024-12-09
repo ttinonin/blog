@@ -32,6 +32,14 @@ class Controller {
 
     /**
      * Called to check if the user can proceed on the controller
+     * 
+     * Example usage:
+     * $this->can('create', PostPolicy::class);
+     * 
+     * @param string $function Function name
+     * @param Policy $policy Policy Fully Qualified Name
+     * @param string|null $redirect Route to redirect
+     * @return void 
      */
     protected function can($function, $policy, $redirect = null) {
         $method = "can_" . $function;
@@ -43,6 +51,8 @@ class Controller {
         if(!$redirect) {
             Redirect::back();
         }
+
+        Redirect::redirect($redirect);
     }
 
     /** Must be overrided for POST */

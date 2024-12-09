@@ -8,6 +8,9 @@ use App\Database\Migrations\UserMigration;
 class MigrationsManager {
     private $migrations = [];
 
+    /**
+     * Set all migrations to run or to be droped
+     */
     public function __construct() {
         $this->migrations = [
             new UserMigration(),
@@ -15,6 +18,9 @@ class MigrationsManager {
         ];
     }
 
+    /**
+     * Drop all tables from each migration
+     */
     public function drop() {
         foreach($this->migrations as $migration) {
             $name = basename(str_replace('\\', '/',get_class($migration)));
@@ -28,6 +34,9 @@ class MigrationsManager {
         }
     }
 
+    /**
+     * Run all migrations inside the migrations array
+     */
     public function run() {
         foreach($this->migrations as $migration) {
             $name = basename(str_replace('\\', '/',get_class($migration)));
