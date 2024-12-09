@@ -15,6 +15,9 @@ require __DIR__ . "/../vendor/autoload.php";
 use App\Controllers\PostController;
 use App\Controllers\UserController;
 use App\Routes\Router;
+use Utils\Environment;
+
+Environment::load("../.env");
 
 $router = new Router();
 

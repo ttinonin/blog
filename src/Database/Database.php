@@ -17,7 +17,7 @@ class Database {
    */
   public function connect() {
     try {
-      $this->connection = new PDO("mysql:host=localhost;dbname=blogdb;charset=utf8", "root", "root");
+      $this->connection = new PDO("mysql:host=" . getenv("DB_HOST") . ";dbname=" . getenv("DB_NAME") . ";charset=utf8", getenv("DB_USER"), getenv("DB_PASSWORD"));
       $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
       return $this->connection;

@@ -53,7 +53,7 @@ npm install
 
 3. Set up the database:
 
-- Inside `src/Database/Database.php` set PDO parameters with database info.
+- Create a `.env` file in the project root directory based on [.env.example](./.env.example)
 
 - Run the migrations:
 
