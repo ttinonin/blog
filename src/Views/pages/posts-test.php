@@ -1,0 +1,1 @@
+<?php require_once __DIR__ . "/../components/header.php"; ?> <?php foreach ( $posts as $post ): ?> <?= htmlspecialchars( $post['body'] ) ?> <?php endforeach; ?> <?php require_once __DIR__ . "/../components/footer.php"; ?>

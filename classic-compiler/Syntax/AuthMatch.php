@@ -12,7 +12,7 @@ trait AuthMatch {
         if(
             $this->open_tag($auth, $authT) &&
             $this->matchL("auth", $auth, $authT, "if") &&
-            $this->append_to_object($authT, "(!App\Services\Auth::isLoggedIn()):") &&
+            $this->append_to_object($authT, "(App\Services\Auth::isLoggedIn()):") &&
 
             $this->close_tag($auth, $authT)
         ) {
