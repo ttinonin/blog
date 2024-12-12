@@ -10,7 +10,7 @@ trait VariableMatch {
         $varT = $nodeT->add_new_node_name("variable");
 
         if(
-            $this->open_tag($var, $varT) &&
+            $this->matchL("<", $var, $varT, "<?=") &&
             $this->append_to_object($varT, "htmlspecialchars(") &&
             $this->matchT("TAG_VAR", $var, $varT) &&
             $this->append_to_object($varT, ")") &&

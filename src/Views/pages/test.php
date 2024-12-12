@@ -1,1 +1,1 @@
-<?php require_once __DIR__ . "/../components/ header.php "; ?> < h1 > Classic Compiler works! < / h1 > <?php require_once __DIR__ . "/../components/ footer.php "; ?>
+<?php require_once __DIR__ . "/../components/header.php"; ?> <h1 > Classic Compiler works! </h1 > <p > REQUEST METHOD: <?= htmlspecialchars( $_SERVER['REQUEST_METHOD'] ) ?> </p > <?php require_once __DIR__ . "/../components/footer.php"; ?>

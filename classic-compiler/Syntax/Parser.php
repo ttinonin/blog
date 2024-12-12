@@ -67,8 +67,6 @@ class Parser {
     }
 
     public function main() {
-        global $argv;
-
         $this->token = $this->next_token();
         
         if($this->code($this->root_parser, $this->root_parserT)) {

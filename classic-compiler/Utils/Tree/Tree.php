@@ -48,13 +48,17 @@ class Tree {
 
             $output .= $enter;
             $this->code[] = $enter;
-        
+            
             if (count($var1->nodes) === 0) {
-                $content = (string)$var1;
+                if($var1->name === "/" || $var1->name === "<" || str_contains($var1->name, ".php") || str_contains($var1->name, "/../") || str_contains($var1->name, "./")) {
+                    $content = (string)$var1->name;
+                } else {
+                    $content = (string)$var1->name . " ";
+                }
                 $output .= $content;
                 $this->code[] = $content;
             }
-        
+            
             foreach ($var1->nodes as $node) {
                 $this->print_code($node, $output);
             }
@@ -62,6 +66,7 @@ class Tree {
             $output .= $exit;
             $this->code[] = $exit;
         }
+
     }
 
     private function removeSpacesInHtmlTags($tag) {
