@@ -26,6 +26,15 @@ Compiles to:
 <?php require_once __DIR__ . "/../components/footer.php"; ?>
 ```
 
+## Directives
+
+- `<auth>`: Checks if the user is logged in and wraps the content inside an if statement.
+- `<foreach array="" value="">`: Standard PHP foreach loop for iterating over arrays.
+- `<component src="">`: Renders a component located in the `components/` directory.
+- `<if condition="">`: Standard PHP if statement for conditional logic.
+- `<else>`: Standard PHP else statement, used after `<if>` or `<auth>`.
+- `<$variable>`: Displays a variable using htmlspecialchars to prevent XSS attacks.
+
 ## Usage
 
 Inside the `src/Views/pages/pre_compiled directory`, create a `.classic.php` file and use the CLI to compile it into PHP with the following command:
