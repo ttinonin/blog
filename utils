@@ -4,6 +4,7 @@ require __DIR__ . "/vendor/autoload.php";
 
 use App\Database\Migrations\MigrationsManager;
 
+use Compiler\Compiler;
 use Utils\Flags;
 use Utils\Builders\MiddlewareBuilder;
 use Utils\Builders\ModelBuilder;
@@ -74,6 +75,12 @@ function get_flags($flags) {
       case "--help":
         $flags->help();
         break;
+      case "--tokens":
+        $flags->tokens();
+        break;
+      case "--tree":
+        $flags->tree();
+        break;
       default:
         $flags->add($argument);
         break;
@@ -109,6 +116,10 @@ function main() {
       echo "Press Ctrl+C to stop the server\n";
       
       exec("php -S $host:$port -t public");
+      break;
+    case 'compile':
+      $compiler = new Compiler($flags);
+      $compiler->init("test.classic.php");
       break;
     default:
       die("\033[31m Error: Operation not found. \033[0m\n");

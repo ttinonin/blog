@@ -5,6 +5,14 @@ namespace Utils;
 class Flags {
     private $flags = [];
   
+    public function tokens() {
+      $this->flags["tokens"] = true;
+    }
+
+    public function tree() {
+      $this->flags["tree"] = true;
+    }
+
     public function help() {
         echo <<<EOL
         PHP Utils v1.0.0
