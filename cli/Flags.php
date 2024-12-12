@@ -33,10 +33,13 @@ class Flags {
         Server:
           start                    Start the development server on localhost
         
+        Classic Compiler:
+          compile <template>       Compile classic template to PHP
+        
         Examples:
-          php utils.php start --port=8080
-          php utils.php build:middleware AuthMiddleware
-          php utils.php migrate:run
+          php utils start --port=8080
+          php utils build:middleware AuthMiddleware
+          php utils migrate:run
         
         EOL;
 

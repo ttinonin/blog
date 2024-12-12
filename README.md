@@ -18,6 +18,7 @@ The project includes a custom lightweight PHP framework with the following featu
 - Database Facades: Simplifies database queries.
 - Policies: Ensure that users can only perform actions they are permitted to.
 - CLI: Custom CLI, for creating Middlewares, Controllers, Models and run Migrations operations.
+- Template Compiler: Converts custom template syntax inspired by HTML into PHP code. This allows developers to write expressive templates using a familiar syntax, like `<if>` and `<foreach>`, which are seamlessly compiled into efficient PHP code. See the [TEMPLATE](./TEMPLATE.md) file for details.
 
 ### Documentation
 

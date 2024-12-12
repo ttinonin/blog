@@ -121,8 +121,15 @@ function main() {
       exec("php -S $host:$port -t public");
       break;
     case 'compile':
+      if(!isset($argv[2])) {
+        fwrite(STDERR, "Error: File name not provided!\n");
+        fwrite(STDERR, "Usage: php utils compile <file_name>\n");
+        exit(1);
+      }
+
+      $file_name = $argv[2];
       $compiler = new Compiler($flags);
-      $compiler->init("test.classic.php");
+      $compiler->init($file_name);
       break;
     default:
       die("\033[31m Error: Operation not found. \033[0m\n");
